@@ -8,6 +8,10 @@ There are three skills in this repo:
 2. `html-validate`: This skill runs `html-validate-ember` and validates what it can. A report is produced for a developer to analyze/fix issues. Skill can be re-run and there is a mechanism to mark a false-positive. When exiting the skill (`finish`), the reports should remove themselves so the branch is clean for a PR.
 3. `wcag-audit`: This skill runs `ember-template-lint` and `ember-a11y-testing` and seems to try to figure out some keyboard/focus issues where it can. A report is produced for the developer to analyze/fix issues. The skill can be re-run and like the other skill, it has a mechanism to report a false positive. When exiting the skill (`finish`), the reports should remove themselves so the branch is clean for a PR.
 
+## How to use
+
+I put these in the `~/.agents` folder locally and tell my agent where to find them.
+
 ## Auditor mode
 
 In order to make this set of skills useful to other roles on teams, these can also be used to produce Jira (or other platform) issues for remediation. The summary report is still produced in auditor mode, but individual markdown files are also created that provide the details necessary to file an issue in your platform of choice.
