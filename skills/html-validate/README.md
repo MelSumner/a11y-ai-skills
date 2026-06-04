@@ -4,7 +4,7 @@
 
 The `html-validate` skill runs the `validate-gts` binary against Ember template files (`.gts`, `.gjs`, `.hbs`), surfaces every violation at rule ID / file path / line:column, and maps findings to the relevant HTML Living Standard section or WCAG 2.2 Success Criterion.
 
-It starts by asking whether you are a **developer** or an **auditor**. Developer mode keeps the current report flow; auditor mode outputs Jira-ready grouped issue chunks and bulk-upload artifacts with deterministic labels (`a11y-audit`, mapped product label, `wcag-x-x-x`, exactly one `a11y-sev:*`, optional `wcag-fN`). It covers what the HTML5 spec and ARIA rules can detect statically. It is not a full WCAG audit — run `wcag-audit` after this skill for that.
+It starts by asking whether you are a **developer** or an **auditor**. Developer mode keeps the current report flow; auditor mode switches to Jira-oriented outputs using the shared [issue format rules](../shared/issue-format.md). It covers what the HTML5 spec and ARIA rules can detect statically. It is not a full WCAG audit — run `wcag-audit` after this skill for that.
 
 ---
 
@@ -24,7 +24,7 @@ It starts by asking whether you are a **developer** or an **auditor**. Developer
 8. Produces a suppression ledger listing every inline suppress directive found, the rule suppressed, and the file location.
 9. Manages a false positive registry (`.html-validate-fps.json`) — violations you acknowledge as intentional are tracked separately across runs, not silently dropped.
 10. In **developer mode**, writes a Markdown validation report with findings grouped by rule family.
-11. In **auditor mode**, outputs grouped Jira-ready issue chunks (instead of findings tables) plus bulk-upload artifacts, with each Jira issue title starting with what is wrong (for example: "Incorrect use of ...", "Missing accessible name for ...", "Lack of ...", "Malformed syntax ...") and labels generated from the standard contract (`a11y-audit`, product label, `wcag-x-x-x`, single `a11y-sev:*`, optional `wcag-fN`).
+11. In **auditor mode**, outputs grouped Jira-ready issue chunks (instead of findings tables) plus bulk-upload artifacts, with issue structure defined by the shared [issue format rules](../shared/issue-format.md), required labels generated from the standard contract (`a11y-audit`, product label, `wcag-x-x-x`, single `a11y-sev:*`, optional `wcag-fN`), and Jira issue titles starting with what is wrong (for example: "Incorrect use of ...", "Missing accessible name for ...", "Lack of ...", "Malformed syntax ...").
 12. Cleans up generated report/artifact files on request.
 
 ---

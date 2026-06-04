@@ -4,7 +4,7 @@
 
 The `wcag-audit` skill runs automated WCAG 2.2 AA accessibility checks against an Ember.js codebase, maps findings to specific success criteria, classifies issues by severity, and produces structured outputs for remediation and reporting.
 
-It starts by asking whether you are a **developer** or an **auditor**. Developer mode keeps the current findings-report flow; auditor mode outputs grouped Jira-ready issue chunks plus bulk-upload artifacts with deterministic labels (`a11y-audit`, mapped product label, `wcag-x-x-x`, exactly one `a11y-sev:*`, optional `wcag-fN`). Manual testing — keyboard navigation, screen reader behavior, visual checks, and motion checks — is still required. **The output of this skill is not a formal compliance determination.**
+It starts by asking whether you are a **developer** or an **auditor**. Developer mode keeps the current findings-report flow; auditor mode outputs grouped Jira-ready issue chunks plus bulk-upload artifacts with deterministic labels (`a11y-audit`, mapped product label, `wcag-x-x-x`, exactly one `a11y-sev:*`, optional `wcag-fN`). Auditor issue chunks follow the shared [issue format rules](../shared/issue-format.md). Manual testing — keyboard navigation, screen reader behavior, visual checks, and motion checks — is still required. **The output of this skill is not a formal compliance determination.**
 
 ---
 
@@ -25,7 +25,7 @@ It starts by asking whether you are a **developer** or an **auditor**. Developer
 9. Groups fixes by root cause so one change can resolve multiple instances.
 10. Manages a false positive registry (`.wcag-audit-fps.json`) — findings you acknowledge as intentional are tracked separately across runs, not silently dropped.
 11. In **developer mode**, writes a Markdown audit report with findings tables, detailed evidence, remediation plan, and an automated audit outcome (pass / conditional pass / fail).
-12. In **auditor mode**, outputs grouped Jira-ready issue chunks (instead of findings tables) plus bulk-upload artifacts, with each Jira issue title starting with what is wrong (for example: "Incorrect use of ...", "Missing accessible name for ...", "Lack of ...", "Malformed syntax ...") and labels generated from the standard contract (`a11y-audit`, product label, `wcag-x-x-x`, single `a11y-sev:*`, optional `wcag-fN`).
+12. In **auditor mode**, outputs grouped Jira-ready issue chunks (instead of findings tables) plus bulk-upload artifacts, with issue structure defined by the shared [issue format rules](../shared/issue-format.md), each Jira issue title starting with what is wrong (for example: "Incorrect use of ...", "Missing accessible name for ...", "Lack of ...", "Malformed syntax ..."), and labels generated from the standard contract (`a11y-audit`, product label, `wcag-x-x-x`, single `a11y-sev:*`, optional `wcag-fN`).
 13. Cleans up generated report/artifact files on request.
 
 ---

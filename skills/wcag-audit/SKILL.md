@@ -53,7 +53,7 @@ user-invocable: true
 Before Step 0, always ask this exact question: **"Are you a developer or an auditor?"**
 
 - If the answer is **developer**: keep the existing workflow and report shape.
-- If the answer is **auditor**: keep the same audit logic, but switch final outputs to grouped Jira issue chunks, bulk-upload artifacts, and per-issue files (no findings table output).
+- If the answer is **auditor**: keep the same audit logic, but switch final outputs to grouped Jira issue chunks, bulk-upload artifacts, and per-issue files (no findings table output). Use [shared issue format rules](../shared/issue-format.md) as the canonical issue structure.
 
 0. Run Preflight Discovery
 
@@ -173,7 +173,7 @@ This step is **user-triggered**. Execute it when the user says "mark row N as a 
 - Format the report metadata section as a Markdown bulleted list (not paragraphs or tables), including at minimum: audit date, repository/project, audited file types, WCAG target, audit type, Audit coverage scope: all template/markup files (i.e., .hbs, .html, .gts, .gjs), exclusions, tools used (including template lint scripts executed or none found), `ember-a11y-testing` devDependency status (present or missing), assistive technologies, assumptions, commands/scripts executed with outcomes, tool versions, suppression inventory discovered, untestable areas with reason, and residual risk summary.
 - Link each finding to failed Success Criterion ID(s) and title(s), location, reproduction steps, and conformance state. Only include findings not moved to the active false positives list.
 - In **developer** mode: present findings in a table where the first column is a sequential row number (`1`, `2`, `3`, ...).
-- In **auditor** mode: do not emit findings tables; instead, group findings by criterion/root-cause clusters into Jira issue chunks and generate labels using `## Jira Label Generation (Auditor Mode)`.
+- In **auditor** mode: do not emit findings tables; instead, group findings by criterion/root-cause clusters into Jira issue chunks, format each chunk using `## Issue Format (Auditor Mode)`, and generate labels using `## Jira Label Generation (Auditor Mode)`.
 - Include detailed evidence for every issue found, including code references, reproduction steps, expected behavior, actual behavior, and verification status.
 - For each finding, include applicable Techniques and/or Failures references from https://www.w3.org/WAI/WCAG22/Techniques/ and note when none are clearly applicable.
 - For each finding, include corresponding Understanding link(s) from https://www.w3.org/WAI/WCAG22/Understanding/ for every mapped criterion.
@@ -276,10 +276,14 @@ Return results in this order, based on reporting mode:
 
 1. AI-generated warning and metadata (same required metadata fields as developer mode).
 2. Auditor summary: pass / conditional pass / fail with grouped counts by severity and criterion cluster.
-3. **Grouped Jira issue chunks** (not tables): group issues by shared root cause and criterion overlap whenever possible. Each chunk must be copy/paste ready and include: issue type, summary/title, severity/priority, labels, components, affected locations, impact statement, evidence, WCAG criterion references, WCAG Failure references (when known), and acceptance criteria. Jira summary/title must start with what is wrong (for example: "Incorrect use of ...", "Missing accessible name for ...", "Lack of ...", "Malformed syntax ..."). Labels must be generated using `## Jira Label Generation (Auditor Mode)`.
+3. **Grouped Jira issue chunks** (not tables): group issues by shared root cause and criterion overlap whenever possible. Format every chunk using `## Issue Format (Auditor Mode)` and generate labels using `## Jira Label Generation (Auditor Mode)`.
 4. Active and stale false positive sections, expressed as Jira notes/chunks (not findings tables).
 5. Jira artifact manifest describing files written for filing, and confirm that chunk, bulk-upload, and per-issue artifacts were generated.
 6. Re-test and follow-up notes.
+
+## Issue Format (Auditor Mode)
+
+See [shared issue format rules](../shared/issue-format.md). In auditor mode, this is the canonical structure for every Jira issue chunk.
 
 ## Jira Label Generation (Auditor Mode)
 

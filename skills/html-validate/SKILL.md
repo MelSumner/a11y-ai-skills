@@ -41,7 +41,7 @@ user-invocable: true
 Before Step 0, always ask this exact question: **"Are you a developer or an auditor?"**
 
 - If the answer is **developer**: keep the existing workflow and report shape.
-- If the answer is **auditor**: keep the same detection logic, but switch final outputs to grouped Jira issue chunks, bulk-upload artifacts, and per-issue files (no findings table output).
+- If the answer is **auditor**: keep the same detection logic, but switch final outputs to the auditor contract defined in `### Auditor mode (Jira-oriented)` under `## Output Format` (including `## Issue Format (Auditor Mode)`, `## Jira Label Generation (Auditor Mode)`, and `## Report File Naming`).
 
 0. Run Preflight Discovery
 
@@ -141,7 +141,7 @@ This step is **user-triggered**. Execute it when the user says "mark row N as a 
 - Immediately below the report title and before all other content, include a warning that this report was generated with an AI skill and all findings must be verified by a human reviewer.
 - Format the report metadata as a Markdown bulleted list including at minimum: validation date, project/repository, scope (directories and file types validated), exclusions, `html-validate-ember` version, `html-validate` version, Glint mode (enabled or disabled), package manager, command(s) executed, exit code(s), suppression inventory, and any tool errors encountered.
 - In **developer** mode: present findings in a table where the first column is a sequential row number.
-- In **auditor** mode: do not emit findings tables; instead, group findings by rule family and shared fix pattern into Jira issue chunks and generate labels using `## Jira Label Generation (Auditor Mode)`.
+- In **auditor** mode: follow the output contract in `### Auditor mode (Jira-oriented)` under `## Output Format` (grouped Jira issue chunks, no findings tables) and apply `## Issue Format (Auditor Mode)` plus `## Jira Label Generation (Auditor Mode)`.
 - Group findings by rule family (Content Model, ARIA/Accessibility, Form Correctness, Attribute Validity). Only include violations that were not moved to the active false positives list.
 - For every ARIA/accessibility finding, include the relevant WCAG 2.2 Success Criterion or ARIA spec reference formatted as a Markdown link:
   - Format each WCAG criterion as a Markdown link on the criterion text itself, for example: `[SC 1.3.1 Info and Relationships](https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html)`.
@@ -152,7 +152,7 @@ This step is **user-triggered**. Execute it when the user says "mark row N as a 
 - For Form Correctness and Attribute Validity findings, include relevant WCAG criterion or HTML spec references as Markdown links where applicable, following the same format as above.
 - State a compliance summary: pass (no violations), violations found (list counts per family and FP count), or tool error (explain what could not run).
 - In **developer** mode: write the report as `<project-name>-html-validate.md` in the project root. If that file already exists, append `_NN` before `.md` starting at `01` and use the next available number.
-- In **auditor** mode: write Jira artifacts following the auditor naming rules in `## Report File Naming` and the label rules in `## Jira Label Generation (Auditor Mode)`.
+- In **auditor** mode: write Jira artifacts following `## Report File Naming`.
 
 6. Handle Degraded Mode (When Validator Cannot Run)
 
@@ -182,7 +182,7 @@ See [shared cleanup procedure](../shared/cleanup-procedure.md) for complete deta
 - If the validator reports only `no-trailing-whitespace`, `no-self-closing`, `attr-quotes`, or `no-raw-characters` violations: flag these as likely transformer artifact false positives and recommend confirming that the `:recommended` or `:gts-recommended` preset is active in `.htmlvalidate.json`.
 - If `.html-validate-fps.json` does not exist: skip false positive matching entirely; the findings list is the complete set of real violations.
 - If a false positive registry entry does not match any violation in the current run: mark it as a stale entry in the report; do not treat the absence of a match as an error.
-- If reporting mode is **auditor**: group issues by rule family/root-cause clusters whenever possible and output Jira chunks, bulk-upload artifacts, and per-issue files instead of findings tables.
+- If reporting mode is **auditor**: apply the auditor output contract in `### Auditor mode (Jira-oriented)` under `## Output Format`.
 - If the user requests to mark a violation as a false positive: execute Step 4 (Handle False Positive Requests) regardless of which step the skill is currently executing.
 - If the user says "I'm done", "finish audit", "wrap up", "clean up for PR", "remove the report", or similar: execute Step 7 (Finish Audit Session) immediately, regardless of which step the skill is currently executing.
 - **Finish — No generated files found**: Inform the user that the working directory is already clean; no action needed.
@@ -203,8 +203,7 @@ A run is considered complete only when all are true:
 - Content model findings include HTML Living Standard section references formatted as Markdown links on the section text, or explicitly state "none identified."
 - Suppression ledger is present listing all `{{!-- [html-validate-disable ...] --}}` directives found, or explicitly marked empty.
 - In **developer** mode: findings table uses sequential numbered rows as the first column.
-- In **auditor** mode: findings are grouped into Jira issue chunks (no findings table), with one chunk per grouped issue bundle whenever possible.
-- In **auditor** mode: every Jira issue chunk includes an impact statement.
+- In **auditor** mode: outputs follow `### Auditor mode (Jira-oriented)` under `## Output Format`.
 - In **auditor** mode: every Jira issue chunk and bulk row uses the required label contract from `## Jira Label Generation (Auditor Mode)`.
 - Report includes AI-generated warning directly below the title and before metadata.
 - Report metadata is rendered as a Markdown bulleted list.
@@ -238,10 +237,14 @@ Return results in this order, based on reporting mode:
 
 1. AI-generated warning and metadata (same required metadata fields as developer mode).
 2. Auditor summary: pass / violations found / tool error with grouped counts by rule family.
-3. **Grouped Jira issue chunks** (not tables): group violations by rule-family and shared fix pattern whenever possible. Each chunk must be copy/paste ready and include: issue type, summary/title, severity/priority, labels, components, affected files/locations, impact statement, evidence, WCAG/HTML/ARIA references, WCAG Failure references (when known), and acceptance criteria. Jira summary/title must start with what is wrong (for example: "Incorrect use of ...", "Missing accessible name for ...", "Lack of ...", "Malformed syntax ..."). Labels must be generated using `## Jira Label Generation (Auditor Mode)`.
+3. **Grouped Jira issue chunks** (not tables): group violations by rule-family and shared fix pattern whenever possible. Format every chunk using `## Issue Format (Auditor Mode)`, generate labels using `## Jira Label Generation (Auditor Mode)`, and include skill-specific fields for affected files/locations, impact statement, evidence, and acceptance criteria.
 4. Active and stale false positive sections, expressed as Jira notes/chunks (not findings tables).
 5. Jira artifact manifest describing files written for filing, and confirm that chunk, bulk-upload, and per-issue artifacts were generated.
 6. Re-run instructions and follow-up notes.
+
+## Issue Format (Auditor Mode)
+
+See [shared issue format rules](../shared/issue-format.md). In auditor mode, this is the canonical structure for every Jira issue chunk.
 
 ## Jira Label Generation (Auditor Mode)
 
