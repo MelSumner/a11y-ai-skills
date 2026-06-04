@@ -7,6 +7,7 @@ This step is **user-triggered**. Execute it when the user says "I'm done", "fini
 1. **Identify files to remove** based on reporting mode:
    - **Developer mode**: Find report files matching the skill-specific pattern (e.g., `*-a11y-config.md`, `*-html-validate.md`, `*-a11y-audit.md`) including any `_NN` suffix variants
    - **Auditor mode**: Find Jira artifact files matching the skill-specific pattern (e.g., `*-a11y-config-jira-chunks.md`, `*-a11y-config-jira-bulk.csv`, `*-a11y-config-jira-issue-*.md`)
+   - Ask the user if they want to remove the false-positive file(s).
 
 2. **If no matching files are found**: Tell the user the working directory is already clean and nothing needs to be removed.
 
