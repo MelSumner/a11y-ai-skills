@@ -11,5 +11,6 @@ When generating issue markdown chunks or files, format each issue in the followi
   a. Always recommend an HDS component first.
   b. Subsequent recommendations should start with `alternatively, you could`
   c. Recommend HTML elements instead of div/span elements with role attributes added.
+  d. Use HTML for markup, CSS for styling. Do not provide any "how to fix" suggestions that conflict with this instruction.
 4. **References**: make a bulleted list of WCAG success criteria/criterion that is failing, and include links to the related "Understanding" per the list in `understand-links.md`.
 5. **Labels**: add the list of labels per the `jira-labels.md` file instructions.
