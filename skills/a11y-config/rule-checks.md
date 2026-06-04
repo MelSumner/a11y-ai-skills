@@ -6,43 +6,43 @@ This supports the a11y-config skill so that the AI does not need to spend tokens
 
 These a11y rules should not be turned off in any template-lint configuration file.
 
-- 'link-href-attributes': 'error',
-- 'no-abstract-roles': 'error',
-- 'no-accesskey-attribute': 'error',
-- 'no-aria-hidden-body': 'error',
-- 'no-aria-unsupported-elements': 'error',
-- 'no-autofocus-attribute': 'error',
-- 'no-duplicate-attributes': 'error',
-- 'no-duplicate-id': 'error',
-- 'no-duplicate-landmark-elements': 'error',
-- 'no-empty-headings': 'error',
-- 'no-heading-inside-button': 'error',
-- 'no-invalid-aria-attributes': 'error',
-- 'no-invalid-interactive': 'error',
-- 'no-invalid-link-text': 'error',
-- 'no-invalid-link-title': 'error',
-- 'no-invalid-meta': 'error',
-- 'no-invalid-role': 'error',
-- 'no-nested-interactive': 'error',
-- 'no-nested-landmark': 'error',
-- 'no-obsolete-elements': 'error',
-- 'no-pointer-down-event-binding': 'error',
-- 'no-positive-tabindex': 'error',
-- 'no-redundant-role': 'error',
-- 'no-scope-outside-table-headings': 'error',
-- 'no-unsupported-role-attributes': 'error',
-- 'no-whitespace-for-layout': 'error',
-- 'no-whitespace-within-word': 'error',
-- 'require-aria-activedescendant-tabindex': 'error',
-- 'require-context-role': 'error',
-- 'require-iframe-title': 'error',
-- 'require-input-label': 'error',
-- 'require-lang-attribute': 'error',
-- 'require-mandatory-role-attributes': 'error',
-- 'require-media-caption': 'error',
-- 'require-presentational-children': 'error',
-- 'require-valid-alt-text': 'error',
-- 'table-groups': 'error',
+-`link-href-attributes`
+-`no-abstract-roles`
+-`no-accesskey-attribute`
+-`no-aria-hidden-body`
+-`no-aria-unsupported-elements`
+-`no-autofocus-attribute`
+-`no-duplicate-attributes`
+-`no-duplicate-id`
+-`no-duplicate-landmark-elements`
+-`no-empty-headings`
+-`no-heading-inside-button`
+-`no-invalid-aria-attributes`
+-`no-invalid-interactive`
+-`no-invalid-link-text`
+-`no-invalid-link-title`
+-`no-invalid-meta`
+-`no-invalid-role`
+-`no-nested-interactive`
+-`no-nested-landmark`
+-`no-obsolete-elements`
+-`no-pointer-down-event-binding`
+-`no-positive-tabindex`
+-`no-redundant-role`
+-`no-scope-outside-table-headings`
+-`no-unsupported-role-attributes`
+-`no-whitespace-for-layout`
+-`no-whitespace-within-word`
+-`require-aria-activedescendant-tabindex`
+-`require-context-role`
+-`require-iframe-title`
+-`require-input-label`
+-`require-lang-attribute`
+-`require-mandatory-role-attributes`
+-`require-media-caption`
+-`require-presentational-children`
+-`require-valid-alt-text`
+-`table-groups`
 
 ## HTML Validate
 
