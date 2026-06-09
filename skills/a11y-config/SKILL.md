@@ -1,7 +1,7 @@
 ---
 name: a11y-config
-description: "Audit accessibility package installation and configuration in Ember.js codebases without executing lint or test commands."
-argument-hint: "Provide Ember version, selected package.json path when needed, package manager, and scope for static configuration review."
+description: "Audit and remediate accessibility package installation and configuration in Ember.js codebases without executing lint or test commands."
+argument-hint: "Provide Ember version, selected package.json path when needed, package manager, and remediation scope."
 user-invocable: true
 ---
 
@@ -9,9 +9,18 @@ user-invocable: true
 
 ## What This Skill Produces
 
-- A configuration-only report of package and setup status.
+- A configuration report of package and setup status.
 - A clear list of missing or misconfigured items.
 - Missing packages installed as `devDependencies` in the selected `package.json` when the user confirms the install prompt.
+
+## Operational Guardrails
+
+- Never run lint or test commands in this skill.
+- For every mutating action, follow this sequence: Ask -> Confirm -> Execute -> Verify.
+- Ask for explicit confirmation before any mutating action (install, remove, move, or config file write).
+- After confirmation, execute remediation commands directly instead of returning advice-only guidance.
+- Verify the intended state after each mutating action before continuing.
+- If command execution is unavailable or repeatedly fails, provide manual fallback steps and record the failure reason in the report.
 
 
 ## When To Use
@@ -48,6 +57,7 @@ Run these as distinct workflows with separate outcomes.
 
 ### Install Fallback Protocol
 
+For this protocol, keep the same sequence for each mutating step: Ask -> Confirm -> Execute -> Verify.
 Use this protocol whenever you need to run an install or remove command.
 Do not accept a package that is a transitive dependency; it must exist in the package.json.
 
@@ -79,18 +89,18 @@ Repeat this for each of the Core Packages, using specific sub-steps for packages
 - Search the codebase for `package.json` files before package inspection.
 - If multiple `package.json` files are found, ask the user which one should be evaluated.
 - Use the user-selected `package.json` for the remainder of this Process.
-- Detect which package manager the repository is using before suggesting any install command.
+- Detect which package manager the repository is using before running any install command.
 - If package manager detection is inconclusive, ask the user whether the repo uses yarn, npm, pnpm, or other (allow them to give a different answer).
 - Use the user-provided package manager for the remainder of the skill run.
 - Inspect `package.json` and check both `dependencies` and `devDependencies` for the Core Packages listed above.
 - If present in `devDependencies`: no action needed — continue Process.
-- If present in `dependencies` but **not** in `devDependencies` run each command in sequence. If any command fails, follow the Install Fallback Protocol. Re-check `package.json` to confirm each of the Core Packages is now in `devDependencies` before continuing.
-- If absent from both `dependencies` and `devDependencies`: run the install command. If it fails, follow the Install Fallback Protocol. Re-check `package.json` to confirm each of the Core Packages is now present.
+- If present in `dependencies` but **not** in `devDependencies`: ask to move the package, run each command in sequence after confirmation, and verify `package.json` after each package move. If any command fails, follow the Install Fallback Protocol.
+- If absent from both `dependencies` and `devDependencies`: ask to install the package, run the install command after confirmation, and verify `package.json` after each package install. If command execution fails, follow the Install Fallback Protocol.
 - Sub-steps for `ember-template-lint`:
   - If already present or successfully installed, check for a template-lint config file (`.template-lintrc.js`, `.template-lintrc.mjs`, or `.template-lintrc.cjs`).
-  - If no template-lint config file is found, add it with the recommended configuration.
+  - If no template-lint config file is found, ask to create it, create it after confirmation, and verify the file contents match the recommended configuration.
   - If a template-lint config file exists, compare configured rules against the template-lint a11y rule set in `rule-checks.md`
-  - For any a11y rule found set to `'off'` or `'warn'`: update the config file to set it to `'error'` and append an inline comment `// a11y rule — must remain enabled` on the same line; record the change (rule name, old value → `'error'`).
+  - For any a11y rule found set to `'off'` or `'warn'`: ask to update it, update the config file after confirmation, and verify each changed rule is now `'error'`; append an inline comment `// a11y rule — must remain enabled` on the same line and record the change (rule name, old value -> `'error'`).
   - Do not report on, or modify, non-a11y rules.
   - After the config-file update, search the codebase for inline rule disables.
   - Look for template comments that start with `{{!-- template-lint-disable` or `{{! template-lint-disable`.
@@ -98,12 +108,12 @@ Repeat this for each of the Core Packages, using specific sub-steps for packages
 - Sub-steps for `ember-a11y-testing`:
   - Look for the `test-helper.js` file.
   - If found, ensure that no a11y rules are set to `false`.
-  - If a11y rules are set to `false`, set them to `true`.
+  - If a11y rules are set to `false`, ask to update them, set them to `true` after confirmation, and verify the file no longer disables those rules.
   - Next, inspect accessibility test coverage setup in Ember tests.
   - Report whether a dedicated a11y test path exists.
 - Sub-steps for `html-validate-ember`:
   - If already present or successfully installed, check for `.htmlvalidate.json` in the project root.
-  - If `.htmlvalidate.json` is missing, create it with the minimal config template below, and add custom rule setup as defined in `rule-checks.md`:
+  - If `.htmlvalidate.json` is missing, ask to create it, create it after confirmation with the minimal config template below, and verify the file is present with the required keys before adding custom rule setup as defined in `rule-checks.md`:
     ```json
     {
     	"extends": [

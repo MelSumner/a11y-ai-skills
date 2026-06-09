@@ -4,7 +4,7 @@
 
 The `a11y-config` skill audits package installation and accessibility tool configuration in Ember.js codebases. It starts by asking whether you are a **developer** or an **auditor**, then uses the same checks with role-specific reporting outputs.
 
-This skill does not run lint or test commands. It is configuration inspection and setup only.
+This skill does not run lint or test commands. For each mutating action, it follows Ask -> Confirm -> Execute -> Verify.
 
 ---
 
@@ -13,11 +13,11 @@ This skill does not run lint or test commands. It is configuration inspection an
 1. Starts with a required role question: "Are you a developer or an auditor?"
 2. Locates all `package.json` files in the codebase and asks which one to evaluate when multiple are found.
 3. Detects whether `ember-template-lint`, `ember-a11y-testing`, `html-validate`, and `html-validate-ember` are installed in the correct place — `devDependencies`, not `dependencies`.
-4. Offers to install missing packages or move misplaced ones, with an explicit confirmation prompt for each action.
+4. Prompts for confirmation, then installs missing packages or moves misplaced ones.
 5. Follows a three-step fallback if an install fails: primary command → `--force` retry → direct `package.json` edit + `<pm> install`.
 6. Checks for a template-lint config file (`.template-lintrc.js`, `.template-lintrc.mjs`, or `.template-lintrc.cjs`) and updates any a11y rules set to `'off'` or `'warn'` to `'error'`, adding an inline comment to protect them.
 7. Reports every inline `template-lint-disable` comment in templates that targets an a11y rule.
-8. Checks for `.htmlvalidate.json`; if it is missing, offers to create it with the correct preset configuration for Ember.
+8. Checks for `.htmlvalidate.json`; if it is missing, prompts for confirmation and creates it with the correct preset configuration for Ember.
 9. Verifies that `.htmlvalidate.json` has the required `extends`, `plugins`, and `transform` entries for Ember template files.
 10. Reports every inline `{{!-- [html-validate-disable ...] --}}` suppress directive found in templates.
 11. Manages a false positive registry (`.a11y-config-fps.json`) — configuration gaps you acknowledge as intentional are tracked separately across runs.
@@ -31,7 +31,7 @@ This skill does not run lint or test commands. It is configuration inspection an
 
 1. **Does not run lint commands.** Running `ember-template-lint` or any other linter is outside the scope of this skill.
 2. **Does not run test commands.** Test execution is out of scope.
-3. **Does not install, move, or modify anything without your confirmation.** Every install prompt, move prompt, and config file write requires an explicit yes before the skill proceeds.
+3. **Does not install, move, or modify anything without your confirmation.** After explicit yes, it executes the requested remediation and verifies the result.
 
 ---
 
