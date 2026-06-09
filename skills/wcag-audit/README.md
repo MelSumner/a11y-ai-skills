@@ -14,7 +14,7 @@ It starts by asking whether you are a **developer** or an **auditor**. Developer
 2. Inventories all routes, components, and templates in scope before running any checks.
 3. Records all suppressed rules, skipped tests, and inline disable directives as risk evidence — not pass evidence.
 4. Runs available automated a11y linters and template lint scripts (e.g. `lint:hbs`, `lint:templates`).
-5. Incorporates `html-validate-ember` results from earlier in the session when available.
+5. Focuses on WCAG-oriented findings and does not import HTML spec validation artifacts, rule IDs, or diagnostics.
 6. Checks across multiple UI state variants: initial render, loading, error, empty, open/expanded, and populated.
 7. Maps every finding to the specific WCAG 2.2 Success Criterion it fails, including Understanding document links and applicable Techniques/Failures references.
 8. Classifies each issue by severity:
@@ -35,7 +35,7 @@ It starts by asking whether you are a **developer** or an **auditor**. Developer
 1. **Does not replace manual testing.** Keyboard navigation, screen reader behavior, visual/zoom checks, and motion checks must be performed by a human.
 2. **Does not produce a formal compliance determination.** The automated audit outcome is a triage signal, not a legal or regulatory compliance decision.
 3. **Does not install or configure packages.** Run the `a11y-config` skill first for that.
-4. **Does not run HTML5 spec validation.** Run the `html-validate-ember` skill for that — its results feed into this skill.
+4. **Does not run HTML5 spec validation.** Keep that in the separate HTML spec validation workflow.
 5. **Does not silently pass checks when tools are missing.** Missing scripts or tools are recorded as coverage gaps with explicit residual risk.
 
 ---
@@ -45,8 +45,8 @@ It starts by asking whether you are a **developer** or an **auditor**. Developer
 This is **skill 3 of 3** in the accessibility workflow. Run them in order:
 
 1. **`a11y-config`** — verifies packages are installed and configuration files are correct
-2. **`html-validate-ember`** — runs HTML5 spec and ARIA validation against `.gts`, `.gjs`, and `.hbs` template files
-3. **`wcag-audit`** ← *this skill* — runs automated WCAG 2.2 AA checks and produces a findings report
+2. **HTML spec validation** — runs HTML5 spec and ARIA validation against `.gts`, `.gjs`, and `.hbs` template files
+3. **`wcag-audit`** ← *this skill* — runs automated WCAG 2.2 AA checks and produces a findings report independently of HTML spec validation
 
 If the `a11y-config` preflight check finds missing tools or scripts, the skill will redirect you there before continuing.
 

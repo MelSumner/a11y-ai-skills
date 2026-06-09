@@ -25,7 +25,7 @@ user-invocable: true
 - You need a structured findings register to track and prioritize accessibility issues before manual testing.
 - You need remediation guidance with criterion mappings to inform development work on an Ember app or addon.
 - Manual testing is required after this skill — automated results cover what tooling can detect, but keyboard, screen reader, visual, and motion checks must still be performed by a human.
-- Run the `a11y-config` skill first to ensure required packages and configuration are in place, then `html-validate-ember` for HTML spec validation, before running this skill.
+- Run the `a11y-config` skill first to ensure required packages and configuration are in place. Keep HTML spec validation in the separate HTML spec workflow.
 - You need outputs prepared for either developer remediation workflows or auditor Jira filing workflows.
 
 > **Tip:** Telling the skill this is an Ember codebase when you invoke it produces better results. For example: *"load the wcag-audit skill and run it on this Ember codebase."*
@@ -61,7 +61,7 @@ Before Step 0, always ask this exact question: **"Are you a developer or an audi
 - Enumerate and record all suppressions:
   - template-lint disabled rules and ignored paths,
   - scanner rule suppressions (for example axe rule overrides),
-  - inline html-validate suppress directives (`{{!-- [html-validate-disable ...] --}}` and `{{! [html-validate-disable ...] }}`),
+  - inline suppression directives from other tooling,
   - inline suppression directives and skipped tests.
 - Treat suppressions as risk evidence, not pass evidence.
 - Verify required tool/script availability and record exact versions and any missing tools.
@@ -87,7 +87,7 @@ Before Step 0, always ask this exact question: **"Are you a developer or an audi
 3. Run Automated Baseline Checks
 
 - Execute available a11y linters and page scanners.
-- If `html-validate-ember` results are available from a prior run in this session, review them before continuing — they cover HTML5 spec and ARIA attribute validity that overlaps with WCAG 4.1.1 and 4.1.2.
+- Do not consume HTML spec validation results in this skill; that workflow is handled separately.
 - Always discover and run any template linting scripts defined in the package scripts section (for example `lint:templates`, `template-lint`, `lint:hbs`, or equivalent project-specific template lint script names).
 - Check `package.json` for `ember-a11y-testing` and record whether it is present or missing.
 - If no template lint script exists, explicitly record that none was found.

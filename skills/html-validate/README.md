@@ -46,7 +46,7 @@ This is **skill 2 of 3** in the accessibility workflow. Run them in order:
 2. **`html-validate-ember`** ← *this skill* — runs HTML5 spec and ARIA validation against `.gts`, `.gjs`, and `.hbs` template files
 3. **`wcag-audit`** — runs automated WCAG 2.2 AA checks and produces a findings report
 
-The `wcag-audit` skill will incorporate results from this skill if both are run in the same session.
+`wcag-audit` is a separate skill and does not consume this skill's results.
 
 ---
 

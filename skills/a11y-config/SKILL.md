@@ -106,11 +106,12 @@ Repeat this for each of the Core Packages, using specific sub-steps for packages
   - Look for template comments that start with `{{!-- template-lint-disable` or `{{! template-lint-disable`.
   - Report only inline disable locations where the disabled rule is in the a11y rule set. Do not report inline disables for non-a11y rules.
 - Sub-steps for `ember-a11y-testing`:
-  - Look for the `test-helper.js` file.
+  - Look for the `test-helper.js` file. It may have a different extension.
   - If found, ensure that no a11y rules are set to `false`.
   - If a11y rules are set to `false`, ask to update them, set them to `true` after confirmation, and verify the file no longer disables those rules.
-  - Next, inspect accessibility test coverage setup in Ember tests.
-  - Report whether a dedicated a11y test path exists.
+  - Using the `test-helper-setup.md` file, ensure that at least a global invocation for `ember-a11y-testing` is included in the previously identified test-helper file.
+  - Next, inspect accessibility test coverage setup in Ember tests. These are typically an invocation in acceptance tests.
+  - Report whether a dedicated a11y test path exists for each route in the Ember application.
 - Sub-steps for `html-validate-ember`:
   - If already present or successfully installed, check for `.htmlvalidate.json` in the project root.
   - If `.htmlvalidate.json` is missing, ask to create it, create it after confirmation with the minimal config template below, and verify the file is present with the required keys before adding custom rule setup as defined in `rule-checks.md`:
