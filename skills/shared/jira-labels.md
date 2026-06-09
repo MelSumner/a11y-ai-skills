@@ -7,6 +7,7 @@ Apply labels to every Jira issue (chunk content, bulk CSV row, and per-issue fil
    - Boundary Enterprise → `a11y-audit:boundary-enterprise`
    - Consul Enterprise → `a11y-audit:consul-enterprise`
    - HCP Boundary → `a11y-audit:hcp-boundary`
+   - HCP Platform → `a11y-audit:hcp-plat`
    - HCP Vault → `a11y-audit:hcp-vault`
    - HCP Vault Secrets → `a11y-audit:hvs`
    - HCP Waypoint → `a11y-audit:hcp-waypoint`
